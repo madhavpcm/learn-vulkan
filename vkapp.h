@@ -21,19 +21,34 @@ class vkapp{
         void initVulkan();
         void initWindow();
         void createInstance();
+        void createDebugInstance();
         bool checkValidationLayerSupport();
+        std::vector<const char*> getRequiredExtensions();
+        void setupDebugMessenger();
+        void dbgMessengerConstructor(VkDebugUtilsMessengerCreateInfoEXT& v);
 
         void mainLoop();
         void cleanUp();
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+        VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,const VkAllocationCallbacks* pAllocator,VkDebugUtilsMessengerEXT* pDebugMessenger);
 
         GLFWwindow* m_window = nullptr;
         int m_height,m_width;
         VkInstance m_instance;
+        VkDebugUtilsMessengerEXT m_dbgmessenger;
+
         
         const std::vector<const char*> m_validationLayers={"VK_LAYER_KHRONOS_validation"};
-        #ifdef NDEBUG
-        const bool enableValidationLayers = true;
-        #else
+#ifdef NDEBUG
+        const bool m_enableValidationLayers = true;
+#else
         const bool m_enableValidationLayers = false;
-        #endif
+#endif
+        static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT msgSeverity,
+                                                            VkDebugUtilsMessageTypeFlagsEXT msgType,
+                                                            const VkDebugUtilsMessengerCallbackDataEXT *pCallBacksData,
+                                                            void *pUserData
+        );
+
+
 };
