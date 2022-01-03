@@ -26,7 +26,8 @@ class vkapp{
         std::vector<const char*> getRequiredExtensions();
         void setupDebugMessenger();
         void dbgMessengerConstructor(VkDebugUtilsMessengerCreateInfoEXT& v);
-
+        void pickDevice();
+        bool isDeviceSupported(VkPhysicalDevice device);
         void mainLoop();
         void cleanUp();
         void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);

@@ -182,3 +182,30 @@ void vkapp::dbgMessengerConstructor(VkDebugUtilsMessengerCreateInfoEXT& v){
     v.pfnUserCallback = debugCallback;
     v.pUserData = nullptr; //optionally send classes for debugl
 }
+
+void vkapp::pickDevice(){
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    uint32_t deviceCount = 0;
+    vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr);
+
+    if(!deviceCount){
+        throw std::runtime_error("No Vulkan GPU found");
+    }
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    vkEnumeratePhysicalDevices(m_instance, &deviceCount, devices.data());
+
+    for(const VkPhysicalDevice& device : devices){
+        if(isDeviceSupported(device)){
+            physicalDevice = device;
+            break;
+        }
+    }
+    if(physicalDevice == VK_NULL_HANDLE){
+        throw std::runtime_error("No suitable gpu found!");
+    }
+
+
+}
+bool vkapp::isDeviceSupported(VkPhysicalDevice device){
+    return true;
+}
